@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApplication1.Domain;
 using WebApplication1.Models.Requests.Haunts;
 using WebApplication1.Models.Responses;
 using WebApplication1.Services.Haunts;
@@ -32,6 +33,14 @@ namespace WebApplication1.Controllers.Api
 
         }
 
+        [Route, HttpGet]
+        public HttpResponseMessage GetAll()
+        {
+            ItemsResponse<Haunt> response = new ItemsResponse<Haunt>();
+            response.Items = HauntService.GetAll();
+            return Request.CreateResponse(response);
+
+        }
 
 
     }

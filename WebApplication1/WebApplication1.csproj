@@ -233,6 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.module.js" />
+    <Content Include="app\directory.js" />
     <Content Include="app\main.js" />
     <Content Include="bootstrap\css\bootstrap-theme.css" />
     <Content Include="bootstrap\css\bootstrap-theme.min.css" />
@@ -399,6 +400,7 @@
     <Content Include="Views\Directory\Directory.cshtml" />
     <Content Include="Views\Directory\AddHaunt.cshtml" />
     <Content Include="Views\Directory\TestStuff.cshtml" />
+    <Content Include="Views\Directory\TestStuff2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

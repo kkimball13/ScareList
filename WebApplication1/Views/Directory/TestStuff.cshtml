@@ -6,85 +6,67 @@
 
 <h2>TestStuff</h2>
 
-<div ng-app="app">
+@*<div ng-app="app">
 
-    <div class="col-lg-12" style="padding-left:100px; background-color: antiquewhite" ng-controller="Main as vm">
-        <div class="list" data-ng-repeat="streetRange in items track by streetRange.boundaries">
-            <p>Boundaries: {{vm.boundary}}</p>
+        <div class="col-lg-12" style="padding-left:100px; background-color: antiquewhite" ng-controller="Main as vm">
+            <div class="list" data-ng-repeat="streetRange in items track by streetRange.boundaries">
+                <p>Boundaries: {{vm.boundary}}</p>
+
+            </div>
 
         </div>
-
-    </div>
-</div>
+    </div>*@
 
 
 @section scripts {
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/app/app.module.js"></script>
-<script src="~/app/main.js"></script>
+    <script src="~/app/main.js"></script>
     <script src="~/Scripts/angular-route.js"></script>
     <script type="text/javascript">
 
-        //(function () {
-        //    'use strict';
+        var cart = {
+            "Items": 3,
+            "Item": {
+                "Apple iPhone 5S": {
+                    "productId": 688,
+                    "url": "http://website.com/phone_iphone5s.html",
+                    "price": 299.99
+                },
+                "Solio Mono Solar Charger": {
+                    "productId": 655,
+                    "url": "http://website.com/solio_charger.html",
+                    "price": 29.95
+                },
+                "24 Month Warranty Package": {
+                    "productId": 681,
+                    "url": "http://website.com/24_month_warranty.html",
+                    "price": 129.95
+                }
+            },
+            "Total": 459.89
+        }
 
-        //    var street = angular.module('street', []);
-        //    street.controller('Main', ['$scope', function($scope) {
-        //        var vm = $scope;
+        var getTotals = function () {
+            console.log("Items: " + cart.Items)
 
+            for (var key in cart.Item) {
+                if (cart.Item.hasOwnProperty(key)) {
+                    var currentPrice = cart.Item[key].price;
+                    var currentItem = key;
+                }
 
-        //    //var vm = this;
+                console.log(" - " + currentItem + " (" + currentPrice + ")");
 
-        //    vm.items = null;
-        //    vm.boundary = null;
-        //    vm.streetRange = null;
-        //    vm.displayData = _displayData;
-        //    //vm.showStreetRange = _showStreetRange();
+            }
+            console.log("Total: " + cart.Total);
+        }
 
-        //    vm.items = {};
-        //    vm.streetRange = {};
-
-        //    $.getJSON('https://data.lacity.org/resource/x8i3-2x54.json', function (data) {
-        //        console.log(data);
-        //        vm.displayData(data);
-        //    });
-
-        //    function _displayData(data) {
-
-        //        vm.items = data;
-
-        //        var i;
-        //        for (i = 0; i < vm.items.length; i++) {
-        //            var currentItem = vm.items[i];
-
-        //            console.log(currentItem.boundaries);
-
-        //            //vm.showStreetRange(vm.items);
-        //            vm.boundary = currentItem.boundaries;
-
-        //        };
-        //    }
-
-        //    //function _showStreetRange(data) {
-
-        //    //    vm.$apply(function () {
-        //    //        vm.items = data.items;
-
-        //    //        console.log("success");
-
-        //    //    });
-
-
-
-        //    //}
-
-        //    }]);
-
-        //})();
-
+        getTotals(cart);
 
     </script>
+
 
 
 }

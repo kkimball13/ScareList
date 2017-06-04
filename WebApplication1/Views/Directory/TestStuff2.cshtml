@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "TestStuff2";
+    //Layout = "~/Views/Shared/NewLayout.cshtml";
+}
+
+<h2>TestStuff2</h2>
+
+<div>
+    <input type="text" id="SignUpForDownloadFirstName" />First Name</>
+    <br />
+    <input type="text" id="SignUpForDownloadLastName" />Last Name</>
+    <br />
+    <input type="text" id="SignUpForDownloadEmail" />Email</>
+    <br />
+    <input type="text" id="SignUpForDownloadCompanyName" />Company</>
+    <br />
+    <select name="country" id="country" class="select" onchange="">
+        <option value="39682" selected="selected"></option>
+        <option value="United States">United States</option>
+        </select>
+</div>
+
+
+<script type="text/javascript">
+
+   
+        var clickCounter = 0;
+        const firstName = document.getElementById("SignUpForDownloadFirstName").addEventListener("click", clickCount);
+        const lastName = document.getElementById("SignUpForDownloadLastName").addEventListener("click", clickCount);
+        const email = document.getElementById("SignUpForDownloadEmail").addEventListener("click", clickCount);
+        const companyName = document.getElementById("SignUpForDownloadCompanyName").addEventListener("click", clickCount);
+        const country = document.getElementById("country").addEventListener("click", clickCount);
+        
+        function clickCount() {
+            clickCounter = clickCounter + 1;
+            if (clickCounter === 2) {
+                alert("Two fields clicked!");
+            }
+        }
+
+       
+
+</script>

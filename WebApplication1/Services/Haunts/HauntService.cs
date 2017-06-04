@@ -7,6 +7,7 @@ using WebApplication1.Models.Requests.Haunts;
 using System.Data;
 using WebApplication1.Services;
 using Sabio.Data;
+using WebApplication1.Domain;
 
 namespace WebApplication1.Services.Haunts
 {
@@ -46,7 +47,42 @@ namespace WebApplication1.Services.Haunts
 
         }
 
+        public static List<Haunt> GetAll()
+        {
 
+            List<Haunt> list = null;
+
+            DataProvider.ExecuteCmd(GetConnection, "dbo.Haunts_SelectAll"
+                , inputParamMapper: null
+                , map: delegate (IDataReader reader, short set)
+                {
+                    Haunt p = new Domain.Haunt();
+                    int startingIndex = 0;
+
+                    p.Id = reader.GetSafeInt32(startingIndex++);
+                    p.Name = reader.GetSafeString(startingIndex++);
+                    p.AddressLine1 = reader.GetSafeString(startingIndex++);
+                    p.AddressLine2 = reader.GetSafeString(startingIndex++);
+                    p.City = reader.GetSafeString(startingIndex++);
+                    p.State = reader.GetSafeString(startingIndex++);
+                    p.Zipcode = reader.GetSafeString(startingIndex++);
+                    p.URL = reader.GetSafeString(startingIndex++);
+                    p.Description = reader.GetSafeString(startingIndex++);
+
+                    if (list == null)
+                    {
+                        list = new List<Haunt>();
+                    }
+
+                    list.Add(p);
+
+                }
+
+                );
+
+            return list;
+
+        }
 
 
 

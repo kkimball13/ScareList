@@ -14,7 +14,7 @@
         vm.onPostSuccess = _onPostSuccess;
         vm.onPostError = _onPostError;
         vm.resetForm = _resetForm;
-
+       
 
 
         function _addHaunt(addHaunt) {
@@ -40,6 +40,8 @@
 
         }
 
+
+
         function _onPostSuccess(myData, status, xhr) {
             vm.showSuccessAlert = true;
             console.log("success");
@@ -61,10 +63,10 @@
 
 
 
-        $.getJSON('https://data.lacity.org/resource/xyvg-dst2.json', function (data) {
-            console.log(data);
-            //vm.displayData(data);
-        });
+        //$.getJSON('https://data.lacity.org/resource/xyvg-dst2.json', function (data) {
+        //    console.log(data);
+        //    //vm.displayData(data);
+        //});
 
 
     }

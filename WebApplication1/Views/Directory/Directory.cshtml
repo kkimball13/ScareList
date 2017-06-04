@@ -5,76 +5,39 @@
 @{
     Layout = "~/Views/Shared/NewLayout.cshtml";
 }
+*<div class="row" g-app="app" ng-controller="Main as vm">
+    <div style="padding-top:100px; background-color: blanchedalmond">
+
+        <div n>
 
 
-@section styles{
-    <style type="text/css">
-        .displayName {
-            font-size: 16px;
-        }
+            @*Get List*@
+            <div class="row">
+                <h2 style="padding-left:50px">Haunt Directory</h2>
+                <div class="panel col-md-12" style="background-color:beige">
+                    <div class="panel-body" id="hauntList">
+                        <div class="row">
+                            <div data-ng-repeat="haunt in items track by haunt.Id">
+                                <div class="panel-body text-left">
+                                    <div class="singleHaunt">
+                                        <div class="hauntBox" style="padding:25px">
+                                            <div class="hauntName"><span>{{haunt.Name}} {{haunt.Name}}</span></div>
+                                            <div class="displayName"><span><i class="fa fa-envelope"></i><span> {{haunt.URL}}</span></span></div>
+                                            <br />
 
-        .providerInput {
-            display: inline-block;
-            padding-left: 50px;
-        }
+                                            <div class="btn-group">
+                                                <button type="button" ng-click="updateHaunt(haunt)" class="btn btn-default" style="background-color:aquamarine">Edit</button>
+                                            </div>
+                                            <div class="btn-group">
+                                                <button type="button" ng-click="deleteHaunt(haunt)" class="btn btn-default" style="background-color:lightgreen">Delete</button>
+                                            </div>
 
-        .providerLabel {
-            font-weight: bold;
-        }
-
-        .providerName {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .description {
-            font-style: italic;
-        }
-
-        .singleProvider {
-            font-size: 14px;
-            background-color: beige;
-            border: 10px solid white;
-        }
-
-        .petLabel {
-            font-size: 16px;
-        }
-    </style>
-}
-
-<div style="padding-top:100px; background-color: blanchedalmond" ng-app="app">
-    <div ng-controller="Main as vm">
-
-
-        @*Get List*@
-        <div class="row" style="background-color: orange">
-            <h2 style="padding-left:50px">Haunt Directory</h2>
-            <div class="panel col-md-12" style="background-color:beige">
-                <div class="panel-body" id="hauntList">
-                    <div class="row">
-                        <div class="content-box-wrapper col-md-12" data-ng-repeat="haunt in items track by haunt.Id">
-                            <div class="panel-body text-left">
-                                <div class="singleHaunt">
-                                    <div class="hauntBox" style="padding:25px">
-                                        <div class="hauntName"><span>{{haunt.Name}} {{haunt.Name}}</span></div>
-                                        <div class="displayName"><span><i class="fa fa-envelope"></i><span> {{haunt.URL}}</span></span></div>
-                                        <br />
-                                        <div class="displayName"><span class="providerLabel">About me: </span><br /><span class="description">{{provider.Specialty}}</span></div><br />
-                                        <div class="displayName"><span class="providerLabel">Current availability: </span><br /><span class="description">{{provider.AvailableForHire}}</span></div>
-
-                                        <div class="btn-group">
-                                            <button type="button" ng-click="updateProvider(provider)" class="btn btn-default" style="background-color:aquamarine">Edit</button>
-                                        </div>
-                                        <div class="btn-group">
-                                            <button type="button" ng-click="deleteProvider(provider)" class="btn btn-default" style="background-color:lightgreen">Delete</button>
                                         </div>
 
                                     </div>
+                                    <hr />
 
                                 </div>
-                                <hr />
-
                             </div>
                         </div>
                     </div>
@@ -82,196 +45,237 @@
             </div>
         </div>
     </div>
-</div>
 
+</div>
 
 @section scripts {
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/app/app.module.js"></script>
-<script src="~/app/main.js"></script>
+    <script src="~/app/app.module.js"></script>
+    <script src="~/app/directory.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            receiveitems();
+        });
+
+        function receiveitems(ongetsuccess, ongeterror) {
+
+
+
+            var url = "/api/haunts";
+
+            var settings = {
+                cache: false
+                , contenttype: "application/x-www-form-urlencoded; charset=utf-8"
+                , datatype: "json"
+                , success: ongetsuccess
+                , error: ongeterror
+                , type: "get"
+            };
+
+            $.ajax(url, settings);
+
+
+        }
+
+        function ongetsuccess(data, status, xhr) {
+            console.log("success");
+            console.log(data);
+            var itemlist = data.items;
+
+        }
+
+        function ongeterror() {
+            console.log("error");
+        }
+
+
+    </script>
+
 
     @*<script>providerId = '@Model.Item';</script>*@
 
 
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
-        var myApp = angular.module('listApp1', []);
+            var myApp = angular.module('listApp1', []);
 
-        myApp.controller('ListController', ['$scope', function ($scope) {
-            var vm = $scope;
-
-
-            vm.items = null;
-            vm.receiveItems = _receiveItems;
-            vm.provider = null;
-            vm.showUpdateForm = false;
+            myApp.controller('ListController', ['$scope', function ($scope) {
+                var vm = $scope;
 
 
-            vm.provider = {};
-
-            vm.onGetSuccess = _onGetSuccess;
-            vm.onGetError = _onGetError;
-            vm.onPutSuccess = _onPutSuccess;
-            vm.onPutError = _onPutError;
-            vm.updateProvider = _updateProvider;
-            vm.submitUpdate = _submitUpdate;
-            vm.deleteProvider = _deleteProvider;
-            vm.onDeleteSuccess = _onDeleteSuccess;
-            vm.onDeleteError = _onDeleteError;
-            vm.populateUpdateForm = _populateUpdateForm;
-            vm.cancelUpdate = _cancelUpdate;
-            vm.fireAlert = _fireAlert;
+                vm.items = null;
+                vm.receiveItems = _receiveItems;
+                vm.provider = null;
+                vm.showUpdateForm = false;
 
 
-            render();
+                vm.provider = {};
 
-            function render() {
-                var url = "/api/providers";
-
-                var settings = {
-                    cache: false
-                    , contentType: "application/x-www-form-urlencoded; charset=UTF-8"
-                    , dataType: "json"
-                    , success: vm.receiveItems
-                    , error: vm.onGetError
-                    , type: "GET"
-                };
-
-                $.ajax(url, settings);
-
-
-            }
-
-            function _receiveItems(data) {
-
-                vm.$apply(function () {
-                    vm.items = data.Items;
-
-                    console.log(vm.items);
-
-                });
-            }
+                vm.onGetSuccess = _onGetSuccess;
+                vm.onGetError = _onGetError;
+                vm.onPutSuccess = _onPutSuccess;
+                vm.onPutError = _onPutError;
+                vm.updateProvider = _updateProvider;
+                vm.submitUpdate = _submitUpdate;
+                vm.deleteProvider = _deleteProvider;
+                vm.onDeleteSuccess = _onDeleteSuccess;
+                vm.onDeleteError = _onDeleteError;
+                vm.populateUpdateForm = _populateUpdateForm;
+                vm.cancelUpdate = _cancelUpdate;
+                vm.fireAlert = _fireAlert;
 
 
-            function _updateProvider(aProvider) {
+                render();
 
-                vm.showUpdateForm = true;
+                function render() {
+                    var url = "/api/haunts";
 
-                var url = "/api/providers/" + aProvider.Id;
-                var settings = {
-                    cache: false
-                , contentType: "application/x-wwwa-form-urlencoded; charset=UTF-8"
-                , dataType: "json"
-                , success: vm.populateUpdateForm(aProvider)
-                , error: vm.onGetError
-                , type: "GET"
-                };
+                    var settings = {
+                        cache: false
+                        , contentType: "application/x-www-form-urlencoded; charset=UTF-8"
+                        , dataType: "json"
+                        , success: vm.receiveItems
+                        , error: vm.onGetError
+                        , type: "GET"
+                    };
 
-                $.ajax(url, settings);
+                    $.ajax(url, settings);
 
-            }
-
-            function _submitUpdate(providerId) {
-
-
-                var myData = $("#providerInformation").serialize();
-
-                var providerData = myData + '&Id=' + providerId;
-
-                var url = "/api/providers/" + providerId;
-                var settings = {
-                    cache: false
-                   , contentType: "application/x-www-form-urlencoded; charset=UTF-8"
-                   , data: providerData
-                   , dataType: "json"
-                   , success: vm.onPutSuccess
-                   , error: vm.onPutError
-                   , type: "PUT"
 
                 }
-                $.ajax(url, settings);
+
+                function _receiveItems(data) {
+
+                    vm.$apply(function () {
+                        vm.items = data.Items;
+
+                        console.log(vm.items);
+
+                    });
+                }
 
 
-            }
+                function _updateHaunt(aHaunt) {
+
+                    //vm.showUpdateForm = true;
+
+                    var url = "/api/haunts/" + aHaunt.Id;
+                    var settings = {
+                        cache: false
+                    , contentType: "application/x-wwwa-form-urlencoded; charset=UTF-8"
+                    , dataType: "json"
+                    , success: vm.populateUpdateForm(aProvider)
+                    , error: vm.onGetError
+                    , type: "GET"
+                    };
+
+                    $.ajax(url, settings);
+
+                }
+
+                function _submitUpdate(hauntId) {
 
 
-            function _deleteProvider(aProvider) {
+                    var myData = $("#providerInformation").serialize();
+
+                    var providerData = myData + '&Id=' + providerId;
+
+                    var url = "/api/providers/" + providerId;
+                    var settings = {
+                        cache: false
+                       , contentType: "application/x-www-form-urlencoded; charset=UTF-8"
+                       , data: providerData
+                       , dataType: "json"
+                       , success: vm.onPutSuccess
+                       , error: vm.onPutError
+                       , type: "PUT"
+
+                    }
+                    $.ajax(url, settings);
 
 
-                var url = "/api/providers/" + aProvider.Id;
-                var settings = {
-                    cache: false
-                   , contentType: "application/x-www-form-urlencoded; charset=UTF-8"
-                   , dataType: "json"
-                   , success: vm.onDeleteSuccess
-                   , error: vm.onDeleteError
-                   , type: "DELETE"
-
-                };
-                $.ajax(url, settings);
-
-            }
-
-            function _populateUpdateForm(aProvider) {
+                }
 
 
-
-                vm.aProviderDetails = aProvider;
-                console.log(vm.items);
+                function _deleteProvider(aProvider) {
 
 
-            }
+                    var url = "/api/providers/" + aProvider.Id;
+                    var settings = {
+                        cache: false
+                       , contentType: "application/x-www-form-urlencoded; charset=UTF-8"
+                       , dataType: "json"
+                       , success: vm.onDeleteSuccess
+                       , error: vm.onDeleteError
+                       , type: "DELETE"
 
-            function _onGetSuccess() {
-                console.log("success");
+                    };
+                    $.ajax(url, settings);
 
-            }
+                }
 
-            function _onGetError(jqXhr, error) {
-                vm.$log.log(error);
-                vm.fireAlert('error', 'Try again', 'Insert failed');
-            }
-
-            function _onPutSuccess() {
-
-                console.log("updated");
-
-                render();
-                vm.showUpdateForm = false;
-                vm.fireAlert('success', vm.successfulBatches + 'Batch of addresses added to database', 'Insert successful');
-            }
-
-            function _onPutError(jqXhr, error) {
-                console.log("error");
-
-            }
-
-            function _onDeleteSuccess(data, status, xhr) {
-
-                render();
-
-            }
-
-            function _onDeleteError(jqXhr, error) {
-                vm.$alertService.error("Error!", "Something went wrong");
-            }
-
-            function _cancelUpdate() {
-                vm.showUpdateForm = false;
-
-            }
+                function _populateUpdateForm(aProvider) {
 
 
-            function _fireAlert(type, message, header) {
-                vm.$alertService[type](message, header);
-            }
+
+                    vm.aProviderDetails = aProvider;
+                    console.log(vm.items);
 
 
-        }]);
+                }
+
+                function _onGetSuccess() {
+                    console.log("success");
+
+                }
+
+                function _onGetError(jqXhr, error) {
+                    vm.$log.log(error);
+                    vm.fireAlert('error', 'Try again', 'Insert failed');
+                }
+
+                function _onPutSuccess() {
+
+                    console.log("updated");
+
+                    render();
+                    vm.showUpdateForm = false;
+                    vm.fireAlert('success', vm.successfulBatches + 'Batch of addresses added to database', 'Insert successful');
+                }
+
+                function _onPutError(jqXhr, error) {
+                    console.log("error");
+
+                }
+
+                function _onDeleteSuccess(data, status, xhr) {
+
+                    render();
+
+                }
+
+                function _onDeleteError(jqXhr, error) {
+                    vm.$alertService.error("Error!", "Something went wrong");
+                }
+
+                function _cancelUpdate() {
+                    vm.showUpdateForm = false;
+
+                }
 
 
-    </script>
+                function _fireAlert(type, message, header) {
+                    vm.$alertService[type](message, header);
+                }
+
+
+            }]);
+
+
+        </script>*@
 }
