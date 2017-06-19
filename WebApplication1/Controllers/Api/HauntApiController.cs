@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers.Api
         }
 
         [Route, HttpGet]
-        public HttpResponseMessage GetAll()
+        public HttpResponseMessage GetAll(HauntAddRequest model)
         {
             ItemsResponse<Haunt> response = new ItemsResponse<Haunt>();
             response.Items = HauntService.GetAll();

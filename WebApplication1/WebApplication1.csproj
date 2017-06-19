@@ -221,6 +221,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Requests\Haunts\HauntAddRequest.cs" />
+    <Compile Include="Models\Requests\Haunts\HauntGetRequest.cs" />
     <Compile Include="Models\Responses\BaseReponse.cs" />
     <Compile Include="Models\Responses\ItemResponse.cs" />
     <Compile Include="Models\Responses\ItemsResponse.cs" />

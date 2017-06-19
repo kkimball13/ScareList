@@ -56,27 +56,27 @@
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/app/app.module.js"></script>
-    <script src="~/app/directory.js"></script>
+    @*<script src="~/app/directory.js"></script>*@
     <script type="text/javascript">
 
         $(document).ready(function () {
 
-            receiveitems();
+            receiveItems(onGetSuccess, onGetError);
         });
 
-        function receiveitems(ongetsuccess, ongeterror) {
+        function receiveItems(onGetSuccess, onGetError) {
 
-
+            console.log("test");
 
             var url = "/api/haunts";
 
             var settings = {
                 cache: false
-                , contenttype: "application/x-www-form-urlencoded; charset=utf-8"
-                , datatype: "json"
-                , success: ongetsuccess
-                , error: ongeterror
-                , type: "get"
+                , contentType: "application/x-www-form-urlencoded; charset=UTF-8"
+                , dataType: "json"
+                , success: onGetSuccess
+                , error: onGetError
+                , type: "GET"
             };
 
             $.ajax(url, settings);
@@ -84,14 +84,14 @@
 
         }
 
-        function ongetsuccess(data, status, xhr) {
+        function onGetSuccess(data, status, xhr) {
             console.log("success");
             console.log(data);
             var itemlist = data.items;
 
         }
 
-        function ongeterror() {
+        function onGetError() {
             console.log("error");
         }
 
